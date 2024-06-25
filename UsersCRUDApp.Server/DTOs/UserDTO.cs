@@ -10,8 +10,10 @@ namespace UsersCRUDApp.Server.DTOs
         public required string FullName { get; set; }
         
         [Required]
+        [EmailAddress]
         public required string Email { get; set; }
-        
+
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         
         public string? City { get; set; }
