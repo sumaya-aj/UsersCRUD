@@ -1,1 +1,30 @@
-<p>add-edit-user works!</p>
+
+<div class="container">
+    <ng-container *ngTemplateOutlet="isAddMode ? addTemplate : editTemplate"></ng-container>
+    
+    <!-- Add User Template - regular page -->
+    <ng-template #addTemplate>
+        <div class="card">
+            <div class="card-header">Add User</div>
+            <div class="card-body">
+                <form>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <!-- Edit User Template - modal -->
+    <ng-template #editTemplate>
+        <div class="modal-header">Edit User</div>
+        <div class="modal-body text-center">
+            <form>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="editUser()">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancel</button>
+        </div>
+    </ng-template>
+</div>
+
