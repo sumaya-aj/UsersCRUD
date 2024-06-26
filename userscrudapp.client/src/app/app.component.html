@@ -2,11 +2,18 @@
 <div class="container">
     <div class="card">
 
+        <div class="card-header">Users</div>
         <div *ngIf="showLoader">
             <img src="assets\images\spinner.svg" class="w-10">
         </div>
-
         <div class="card-body" *ngIf="!showLoader">
+            <div class="row">
+                <div class="col-10">filters</div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary btn-sm float-end px-3"><i class="fa-solid fa-plus pe-2"></i>Add User</button> <!-- (click)="openAddUserModal(template)" -->
+                </div>
+            </div>
+            
             <table class="table table-hover" *ngIf="users">
                 <thead>
                     <tr>
@@ -25,12 +32,25 @@
                         <td>{{ user.city }}</td>
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" class="btn btn-outline-danger btn-sm ms-1"><i class="fa-solid fa-trash"></i></button>
+                            <button type="button" class="btn btn-outline-danger btn-sm ms-1" (click)="openConfirmDeleteModal(confirmDeleteTemplateRef)"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
             
         </div>
+    </div>
+
+    <ng-template #confirmDeleteTemplateRef>
+        <div class="modal-body text-center">
+            <i class="fa-solid fa-circle-exclamation fs-1 text-warning"></i>
+            <div class="mt-3">
+                Are you sure you want to delete "user full name"?
+            </div>            
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Yes, Delete it!</button>
+            <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancel</button>
         </div>
+    </ng-template>
+</div>

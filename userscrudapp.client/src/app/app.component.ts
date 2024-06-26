@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService } from './services/users.service';
 import { User } from './types/user';
 
@@ -12,8 +13,10 @@ import { User } from './types/user';
 export class AppComponent implements OnInit {
   users: User[] = [];
   showLoader: boolean = true;
+  modalRef?: BsModalRef;
 
-  constructor(private userService: UsersService) {
+  constructor(private userService: UsersService,
+    private modalService: BsModalService) {
   }
 
   ngOnInit(): void {
@@ -33,5 +36,10 @@ export class AppComponent implements OnInit {
             console.error(err)
           }
         });
+  }
+
+
+  openConfirmDeleteModal(confirmDeleteTemplateRef: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(confirmDeleteTemplateRef);
   }
 }
