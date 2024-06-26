@@ -1,37 +1,37 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from './services/users.service';
+import { User } from './types/user';
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  users: User[] = [];
+  showLoader: boolean = true;
 
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.getForecasts();
+  constructor(private userService: UsersService) {
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  ngOnInit(): void {
+    this.loadUsers();
   }
 
-  title = 'userscrudapp.client';
+  loadUsers(): void {
+    this.userService.getAllUsers()
+      .subscribe({
+          next: (users: User[]) => {
+            this.users = users;
+            this.showLoader = false;
+            console.log(users);
+          },
+          error: (err) => {
+            // this.showLoader = false;
+            console.error(err)
+          }
+        });
+  }
 }

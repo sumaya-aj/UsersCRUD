@@ -4,6 +4,19 @@ using UsersCRUDApp.Server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// enable cross origin resource sharing - step 1
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "allowedOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod(); ;
+        });
+});
+
+
 // Add services to the container.
 
 //builder.Services.AddTransient<IOurHeroService, OurHeroService>();
@@ -29,6 +42,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+// enable cross origin resource sharing - step 2
+app.UseCors("allowedOrigins");
 
 app.MapControllers();
 
