@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from 'src/app/types/user.interface';
 
 @Component({
@@ -10,6 +11,8 @@ import { User } from 'src/app/types/user.interface';
 
 export class AddEditUserComponent {
   
+  @Input() userIdToDelete: number = 0;
+  @Input() isEditMode: boolean = true;
 
   user: User = {
     id: 0,
@@ -19,11 +22,15 @@ export class AddEditUserComponent {
     city: ''
   };
 
-  constructor() {}
+  constructor(private modalRef: BsModalRef) {}
 
 
   onSubmit(form: NgForm) {
    
+  }
+
+  cancelEditUser(): void {
+    this.modalRef.hide();
   }
 
 }

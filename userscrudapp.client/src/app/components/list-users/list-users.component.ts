@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/user.interface';
+import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 
 @Component({
   selector: 'app-list-users',
@@ -40,6 +41,17 @@ export class ListUsersComponent implements OnInit {
     this.modalRef = this.modalService.show(confirmDeleteTemplateRef);
     this.userIdToDelete = userId;
     this.userFullNameToDelete = userFullName;
+  }
+  
+  openEditUserModal(userId: number) {
+    this.userIdToDelete = userId;
+    this.modalRef = this.modalService.show(AddEditUserComponent, {
+      initialState: {
+        userIdToDelete: this.userIdToDelete,
+        isEditMode: true
+      }
+    });
+    // call service getUserById and bind returned data to template
   }
 
   deleteUser() {
