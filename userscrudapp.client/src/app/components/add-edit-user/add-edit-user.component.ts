@@ -1,17 +1,29 @@
 import { Component } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgForm } from '@angular/forms';
+import { User } from 'src/app/types/user.interface';
 
 @Component({
   selector: 'app-add-edit-user',
   templateUrl: './add-edit-user.component.html',
   styleUrls: ['./add-edit-user.component.css']
 })
+
 export class AddEditUserComponent {
-  modalRef?: BsModalRef;
+  
 
-  constructor() {
+  user: User = {
+    id: 0,
+    fullName: '',
+    email: '',
+    birthDate: new Date(),
+    city: ''
+  };
+
+  constructor() {}
+
+
+  onSubmit(form: NgForm) {
+   
   }
-
-  editUser() {}
 
 }

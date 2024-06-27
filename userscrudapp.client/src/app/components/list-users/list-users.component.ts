@@ -1,17 +1,15 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { UsersService } from './services/users.service';
-import { User } from './types/user.interface';
-
+import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/types/user.interface';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-list-users',
+  templateUrl: './list-users.component.html',
+  styleUrls: ['./list-users.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class ListUsersComponent implements OnInit {
   users: User[] = [];
   showLoader: boolean = true;
   modalRef?: BsModalRef;
@@ -19,7 +17,6 @@ export class AppComponent implements OnInit {
   userFullNameToDelete?: string;
 
   constructor(private userService: UsersService,
-    private router: Router,
     private modalService: BsModalService) {
   }
 
