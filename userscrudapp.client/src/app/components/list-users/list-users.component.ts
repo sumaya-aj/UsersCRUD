@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/user.interface';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-users',
@@ -18,7 +19,8 @@ export class ListUsersComponent implements OnInit {
   userFullNameToDelete?: string;
 
   constructor(private userService: UsersService,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -63,5 +65,9 @@ export class ListUsersComponent implements OnInit {
         },
         error: (err) => console.error(err)
       });
+  }
+
+  navigateToAddUserWithState() {
+    this.router.navigate(['/add-user'], { state: { isEditMode: false } });
   }
 }

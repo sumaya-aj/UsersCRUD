@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from 'src/app/types/user.interface';
 
@@ -12,7 +13,7 @@ import { User } from 'src/app/types/user.interface';
 export class AddEditUserComponent {
   
   @Input() userIdToDelete: number = 0;
-  @Input() isEditMode: boolean = true;
+  @Input() isEditMode: boolean | undefined = true;
 
   user: User = {
     id: 0,
@@ -22,11 +23,17 @@ export class AddEditUserComponent {
     city: ''
   };
 
-  constructor(private modalRef: BsModalRef) {}
-
+  constructor(private modalRef: BsModalRef,
+    private router: Router
+  ) {
+    debugger;
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state?.['isEditMode'];
+    console.log('Navigation Object state:', state);
+    this.isEditMode = state;
+  }
 
   onSubmit(form: NgForm) {
-   
   }
 
   cancelEditUser(): void {
