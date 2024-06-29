@@ -26,4 +26,8 @@ export class UsersService {
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.baseAPIUrl}/Get/${id}`);
   }
+  
+  updateUser(user: User): Observable<User> {
+    return this.http.get<User>(`${this.baseAPIUrl}/Update`);
+  }
 }

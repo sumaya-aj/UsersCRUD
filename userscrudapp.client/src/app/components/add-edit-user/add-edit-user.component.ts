@@ -1,14 +1,16 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/user.interface';
 
 @Component({
   selector: 'app-add-edit-user',
   templateUrl: './add-edit-user.component.html',
-  styleUrls: ['./add-edit-user.component.css']
+  styleUrls: ['./add-edit-user.component.css'],
+  providers: [DatePipe]
 })
 
 export class AddEditUserComponent implements OnInit  {
@@ -20,7 +22,7 @@ export class AddEditUserComponent implements OnInit  {
     id: 0,
     fullName: '',
     email: '',
-    birthDate: new Date(),
+    birthDate: '',
     city: ''
   };
 
@@ -28,23 +30,22 @@ export class AddEditUserComponent implements OnInit  {
 
   constructor(private modalRef: BsModalRef,
     private router: Router,
-    private userService: UsersService ) {
-    // const navigation = this.router.getCurrentNavigation();
-    // const state = navigation?.extras.state?.['isEditMode'];
-    // this.isEditMode = state;
+    private userService: UsersService,
+    private datePipe: DatePipe) {
+        // needed for value of this.isEditMode for addUser
+        const navigation = this.router.getCurrentNavigation();
+        const state = navigation?.extras.state?.['isEditMode'];
+        this.isEditMode = state;
   }
  
   ngOnInit(): void {
-    console.log('use id to delete:   '+this.userIdToDelete);
-    console.log('is Edit Mode:   '+this.isEditMode);
-
-
     if(this.userIdToDelete) { // edit mode
       // get user data by id
       this.userService.getUserById(this.userIdToDelete)
       .subscribe({
         next: (user: User) => {
           this.user = user; // map user data with user model that the template is bound with
+          this.user.birthDate = this.datePipe.transform(this.user.birthDate, 'yyyy-MM-dd') || ''; // send date formatted
           this.showLoader = false;
         },
         error: (err) => console.error(err)
@@ -55,6 +56,12 @@ export class AddEditUserComponent implements OnInit  {
  
   onSubmit(form: NgForm) {
     debugger;
+    if (this.isEditMode) {
+      // call edit service
+      this.userService.updateUser()
+    } else {
+      // call add service
+    }
   }
 
   cancel(): void {
