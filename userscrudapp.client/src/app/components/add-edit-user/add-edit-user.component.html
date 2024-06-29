@@ -1,65 +1,70 @@
-<div class="container">
-    <div class="card" *ngIf="!isEditMode">
+<div class="container" *ngIf="!isEditMode">
+    <div class="card">
       <div class="card-header">
         Add User
       </div>
-      <div class="card-body">
-        <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
-      </div>
-    </div>
-    <div *ngIf="isEditMode">
       <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
     </div>
-
 </div>
- 
+
+<div *ngIf="isEditMode">
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Edit User</h5>
+  </div>
+    <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
+</div>
+
+<!-- ---------------------------------------------------------------------------- -->
 <ng-template #addEditForm>
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-    <div class="form-group">
-      <label for="fullName">Full Name</label>
-      <input
-        type="text"
-        id="fullName"
-        name="fullName"
-        ngModel
-        required
-        class="form-control"
-      />
+    <div [ngClass]="{'modal-body': isEditMode, 'card-body': !isEditMode}">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            ngModel
+            required
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            ngModel
+            required
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="birthDate">Birth Date</label>
+          <input
+            type="date"
+            id="birthDate"
+            name="birthDate"
+            ngModel
+            required
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            ngModel
+            class="form-control"
+          />
+        </div>
     </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        ngModel
-        required
-        class="form-control"
-      />
+    <div [ngClass]="{'modal-footer': isEditMode, 'card-footer': !isEditMode}">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary">Cancel</button>
     </div>
-    <div class="form-group">
-      <label for="birthDate">Birth Date</label>
-      <input
-        type="date"
-        id="birthDate"
-        name="birthDate"
-        ngModel
-        required
-        class="form-control"
-      />
-    </div>
-    <div class="form-group">
-      <label for="city">City</label>
-      <input
-        type="text"
-        id="city"
-        name="city"
-        ngModel
-        class="form-control"
-      />
-    </div>
-    <button type="submit" class="btn btn-primary">
-      Save
-    </button>
   </form>
 </ng-template>
