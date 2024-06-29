@@ -24,12 +24,9 @@ export class AddEditUserComponent {
   };
 
   constructor(private modalRef: BsModalRef,
-    private router: Router
-  ) {
-    debugger;
+    private router: Router ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state?.['isEditMode'];
-    console.log('Navigation Object state:', state);
     this.isEditMode = state;
   }
 
@@ -37,8 +34,11 @@ export class AddEditUserComponent {
     debugger;
   }
 
-  cancelEditUser(): void {
-    this.modalRef.hide();
+  cancel(): void {
+    if(this.isEditMode)
+      this.modalRef.hide();
+    else
+      this.router.navigateByUrl("/");
   }
 
 }

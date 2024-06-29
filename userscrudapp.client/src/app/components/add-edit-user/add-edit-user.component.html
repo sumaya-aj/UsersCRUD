@@ -1,5 +1,5 @@
 <div class="container" *ngIf="!isEditMode">
-    <div class="card">
+    <div class="card text-start">
       <div class="card-header">
         Add User
       </div>
@@ -62,9 +62,9 @@
           />
         </div>
     </div>
-    <div [ngClass]="{'modal-footer': isEditMode, 'card-footer': !isEditMode}">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button type="button" class="btn btn-secondary">Cancel</button>
+    <div [ngClass]="{'modal-footer': isEditMode, 'card-footer text-end': !isEditMode}">
+      <button type="submit" class="btn btn-primary" [ngClass]="{'w-8': !isEditMode}">Save</button>
+      <button type="button" class="btn btn-secondary" [ngClass]="{'mx-2': !isEditMode}" (click)="cancel()">Cancel</button>
     </div>
   </form>
 </ng-template>
