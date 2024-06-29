@@ -33,34 +33,33 @@ export class ListUsersComponent implements OnInit {
           next: (users: User[]) => {
             this.users = users;
             this.showLoader = false;
-            console.log(users);
           },
           error: (err) => console.error(err)
-        });
+      });
   }
 
   openConfirmDeleteModal(confirmDeleteTemplateRef: TemplateRef<void>, userId: number, userFullName: string) {
     this.modalRef = this.modalService.show(confirmDeleteTemplateRef);
+    
+    // below two properties are for ng-template #confirmDeleteTemplateRef
     this.userIdToDelete = userId;
     this.userFullNameToDelete = userFullName;
   }
   
   openEditUserModal(userId: number) {
-    this.userIdToDelete = userId;
     this.modalRef = this.modalService.show(AddEditUserComponent, {
       initialState: {
-        userIdToDelete: this.userIdToDelete,
+        userIdToDelete: userId,
         isEditMode: true
       }
     });
-    // call service getUserById and bind returned data to template
   }
 
-  deleteUser() {
-    this.userService.deleteUser(this.userIdToDelete)
+  deleteUser(userId: number) {
+    this.userService.deleteUser(userId)
       .subscribe({
         next: () => {
-          this.loadUsers();  // Refresh list after delete
+          this.loadUsers();  // refresh list after delete
           this.modalRef?.hide();
         },
         error: (err) => console.error(err)
