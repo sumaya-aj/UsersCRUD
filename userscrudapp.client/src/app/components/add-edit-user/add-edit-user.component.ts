@@ -62,7 +62,7 @@ export class AddEditUserComponent implements OnInit  {
 
     // prepare data to send to api
     var newOrUpdatedUser: User = {
-      id: form.controls['id'].value?? 0,
+      id: form.controls['id']?.value?? 0,
       fullName: form.controls['fullName'].value,
       email: form.controls['email'].value,
       birthDate: form.controls['birthDate'].value,
