@@ -69,4 +69,19 @@ export class ListUsersComponent implements OnInit {
   navigateToAddUserWithState() {
     this.router.navigate(['/add-user'], { state: { isEditMode: false } });
   }
+
+  searchUsers(searchString: string): void {
+    this.showLoader = true;
+    this.userService.searchUsers(searchString)
+      .subscribe({
+        next: (users: User[]) => {
+          this.users = users;
+          this.showLoader = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.showLoader = false;
+        }
+      });
+  }
 }

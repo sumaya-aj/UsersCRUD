@@ -18,9 +18,9 @@ namespace UsersCRUDApp.Server.API
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll() {
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll(string? searchString) {
             
-            var users = await _userRepository.GetAllUsersAsync();
+            var users = await _userRepository.GetAllUsersAsync(searchString);
             return Ok(users);
         }
 
@@ -75,6 +75,8 @@ namespace UsersCRUDApp.Server.API
             await _userRepository.DeleteUserAsync(id);
             return NoContent();
         }
+
+
 
     }
 }

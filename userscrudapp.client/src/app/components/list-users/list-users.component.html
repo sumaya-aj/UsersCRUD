@@ -7,13 +7,22 @@
         </div>
         <div class="card-body" *ngIf="!showLoader">
             <div class="row">
-                <div class="col-10">filters</div>
+                <div class="col-10">
+                    <form class="row gx-3 gy-2 align-items-center" (ngSubmit)="searchUsers(searchString.value)">
+                        <div class="col-sm-3">
+                          <input type="text" class="form-control form-control-sm" placeholder="Search by full name, email or city" #searchString>
+                        </div>
+                        <div class="col-auto">
+                          <button type="submit" class="btn btn-outline-secondary btn-sm">Search</button>
+                        </div>
+                    </form>
+                </div>
                 <div class="col-2">
                     <button type="button" class="btn btn-primary btn-sm float-end px-3" (click)="navigateToAddUserWithState()"><i class="fa-solid fa-plus pe-2"></i>Add User</button> <!-- routerLink="/add-user" -->
                 </div>
             </div>
             
-            <table class="table table-hover" *ngIf="users">
+            <table class="table table-hover mt-4" *ngIf="users">
                 <thead>
                     <tr>
                         <th>Full Name</th>

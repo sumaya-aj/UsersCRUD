@@ -4,7 +4,7 @@ namespace UsersCRUDApp.Server.Repositories
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync(string? searchString);
         Task<UserDTO> GetUserByIdAsync(int id);
         Task AddUserAsync(UserDTO userDto);
         Task UpdateUserAsync(UserDTO userDto);

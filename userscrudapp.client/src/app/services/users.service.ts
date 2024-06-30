@@ -33,4 +33,8 @@ export class UsersService {
   addUser(user: User): Observable<User>{
     return this.http.post<User>(`${this.baseAPIUrl}/Add`, user);
   }
+  
+  searchUsers(searchString: string): Observable<User[]>{
+    return this.http.get<User[]>(`${this.baseAPIUrl}/GetAll?searchString=${searchString}`);
+  }
 }

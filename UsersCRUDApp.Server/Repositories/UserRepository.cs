@@ -2,6 +2,7 @@
 using UsersCRUDApp.Server.Common.UserFriendlyExceptions;
 using UsersCRUDApp.Server.DTOs;
 using UsersCRUDApp.Server.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UsersCRUDApp.Server.Repositories
 {
@@ -37,16 +38,27 @@ namespace UsersCRUDApp.Server.Repositories
             }
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync(string? searchString)
         {
-            return await _dbContext.Users.
-                Select(userDto => new UserDTO { 
-                    Id = userDto.Id,
-                    FullName = userDto.FullName,
-                    Email = userDto.Email, 
-                    BirthDate = userDto.BirthDate, 
-                    City = userDto.City
-                }).ToListAsync();
+
+            IQueryable<User> users = from u in _dbContext.Users select u;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.FullName.Contains(searchString)
+                                       || u.Email.Contains(searchString)
+                                       || u.City.Contains(searchString));
+            }
+
+            return await users
+                .Select(user => new UserDTO
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    BirthDate = user.BirthDate,
+                    City = user.City
+                })
+                .ToListAsync();
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)

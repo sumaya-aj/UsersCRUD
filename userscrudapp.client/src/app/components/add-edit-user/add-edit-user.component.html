@@ -22,7 +22,6 @@
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
     <div [ngClass]="{'modal-body': isEditMode, 'card-body': !isEditMode}">
         <input type="hidden" name="id" [(ngModel)]="user.id" *ngIf="isEditMode">
-        {{user.id}}
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input
@@ -34,7 +33,7 @@
             class="form-control"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group mt-3">
           <label for="email">Email</label>
           <input
             type="email"
@@ -45,7 +44,7 @@
             class="form-control"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group mt-3">
           <label for="birthDate">Birth Date</label>
           <input
             type="date"
@@ -56,7 +55,7 @@
             class="form-control"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group mt-3">
           <label for="city">City</label>
           <input
             type="text"
