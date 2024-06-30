@@ -26,6 +26,8 @@ export class AddEditUserComponent implements OnInit  {
     city: ''
   };
 
+  users: User[] = [];
+
   showLoader: boolean = true;
 
   constructor(private modalRef: BsModalRef,
@@ -58,9 +60,25 @@ export class AddEditUserComponent implements OnInit  {
     debugger;
     if (this.isEditMode) {
       // call edit service
-      this.userService.updateUser()
+      //this.userService.updateUser()
     } else {
-      // call add service
+      // prepare data to send to api
+      var newUser: User = {
+        id: 0,
+        fullName: form.controls['fullName'].value,
+        email: form.controls['email'].value,
+        birthDate: form.controls['birthDate'].value,
+        city: form.controls['city'].value 
+      }
+      
+      //call add service
+      this.userService.addUser(newUser)
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl("/");// route to get all users path
+        },
+        error: (err) => console.error(err)
+      });
     }
   }
 
@@ -72,4 +90,16 @@ export class AddEditUserComponent implements OnInit  {
       this.router.navigateByUrl("/");
   }
 
+
+
+  loadUsers(): void {
+    this.userService.getAllUsers()
+      .subscribe({
+          next: (users: User[]) => {
+            this.users = users;
+            this.showLoader = false;
+          },
+          error: (err) => console.error(err)
+      });
+  }
 }

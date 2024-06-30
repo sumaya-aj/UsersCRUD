@@ -10,7 +10,6 @@ import { User } from '../types/user.interface';
 export class UsersService {
 
   users: User[] = [];
-  private getAllUsersUrl = 'http://localhost:5030/api/Users/GetAll'; // add to some global config file
   private baseAPIUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
@@ -27,7 +26,11 @@ export class UsersService {
     return this.http.get<User>(`${this.baseAPIUrl}/Get/${id}`);
   }
   
-  updateUser(user: User): Observable<User> {
-    return this.http.get<User>(`${this.baseAPIUrl}/Update`);
+  // updateUser(user: User): Observable<User> {
+  //   return this.http.get<User>(`${this.baseAPIUrl}/Update`);
+  // }
+  
+  addUser(user: User): Observable<User>{
+    return this.http.post<User>(`${this.baseAPIUrl}/Add`, user);
   }
 }

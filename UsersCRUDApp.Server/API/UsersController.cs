@@ -19,6 +19,7 @@ namespace UsersCRUDApp.Server.API
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll() {
+            
             var users = await _userRepository.GetAllUsersAsync();
             return Ok(users);
         }
