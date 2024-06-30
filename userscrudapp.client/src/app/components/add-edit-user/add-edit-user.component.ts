@@ -58,21 +58,32 @@ export class AddEditUserComponent implements OnInit  {
  
   onSubmit(form: NgForm) {
     debugger;
+
+
+    // prepare data to send to api
+    var newOrUpdatedUser: User = {
+      id: form.controls['id'].value?? 0,
+      fullName: form.controls['fullName'].value,
+      email: form.controls['email'].value,
+      birthDate: form.controls['birthDate'].value,
+      city: form.controls['city'].value 
+    }
+
     if (this.isEditMode) {
       // call edit service
-      //this.userService.updateUser()
+      this.userService.updateUser(newOrUpdatedUser)
+      .subscribe({
+        next: () => {
+          this.showLoader = true;
+          this.modalRef?.hide();
+          window.location.reload(); // refresh list after edit
+          this.showLoader = false;
+        },
+        error: (err) => console.error(err)
+      });
     } else {
-      // prepare data to send to api
-      var newUser: User = {
-        id: 0,
-        fullName: form.controls['fullName'].value,
-        email: form.controls['email'].value,
-        birthDate: form.controls['birthDate'].value,
-        city: form.controls['city'].value 
-      }
-      
       //call add service
-      this.userService.addUser(newUser)
+      this.userService.addUser(newOrUpdatedUser)
       .subscribe({
         next: () => {
           this.router.navigateByUrl("/");// route to get all users path

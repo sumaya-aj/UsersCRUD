@@ -21,6 +21,8 @@
 <ng-template #addEditForm>
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
     <div [ngClass]="{'modal-body': isEditMode, 'card-body': !isEditMode}">
+        <input type="hidden" name="id" [(ngModel)]="user.id" *ngIf="isEditMode">
+        {{user.id}}
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input
