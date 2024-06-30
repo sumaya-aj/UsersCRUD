@@ -22,7 +22,7 @@ namespace UsersCRUDApp.Server.Repositories
                     FullName = userDto.FullName,
                     Email = userDto.Email,
                     BirthDate = userDto.BirthDate,
-                    City = userDto.City
+                    CityId = userDto.CityId
                 }
             );
             await _dbContext.SaveChangesAsync();
@@ -45,8 +45,8 @@ namespace UsersCRUDApp.Server.Repositories
             if (!String.IsNullOrEmpty(searchString))
             {
                 users = users.Where(u => u.FullName.Contains(searchString)
-                                       || u.Email.Contains(searchString)
-                                       || u.City.Contains(searchString));
+                                       || u.Email.Contains(searchString));
+                                        //u.City.Contains(searchString))
             }
 
             return await users
@@ -56,7 +56,7 @@ namespace UsersCRUDApp.Server.Repositories
                     FullName = user.FullName,
                     Email = user.Email,
                     BirthDate = user.BirthDate,
-                    City = user.City
+                    CityId = user.CityId
                 })
                 .ToListAsync();
         }
@@ -76,7 +76,7 @@ namespace UsersCRUDApp.Server.Repositories
                 FullName = user.FullName,
                 Email = user.Email,
                 BirthDate = user.BirthDate,
-                City = user.City
+                CityId = user.CityId
             };
         }
 
@@ -89,7 +89,7 @@ namespace UsersCRUDApp.Server.Repositories
                 user.FullName = userDto.FullName;
                 user.Email = userDto.Email;
                 user.BirthDate = userDto.BirthDate;
-                user.City = userDto.City;
+                user.CityId = userDto.CityId;
 
                 await _dbContext.SaveChangesAsync();
             }

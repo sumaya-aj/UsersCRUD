@@ -9,6 +9,7 @@ namespace UsersCRUDApp.Server.Models
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public DateTime BirthDate { get; set; }
-        public string? City { get; set; }
+        public int? CityId { get; set; }
+        public City? City { get; set; }
     }
 }

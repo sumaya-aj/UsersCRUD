@@ -16,6 +16,6 @@ namespace UsersCRUDApp.Server.DTOs
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         
-        public string? City { get; set; }
+        public int? CityId { get; set; }
     }
 }
