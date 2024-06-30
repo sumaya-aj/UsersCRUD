@@ -9,5 +9,6 @@ namespace UsersCRUDApp.Server.Models
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

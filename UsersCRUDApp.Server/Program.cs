@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UsersCRUDApp.Server.Models;
 using UsersCRUDApp.Server.Repositories;
+using UsersCRUDApp.Server.Repositories.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

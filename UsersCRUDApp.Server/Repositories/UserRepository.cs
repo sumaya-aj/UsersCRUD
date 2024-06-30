@@ -2,6 +2,7 @@
 using UsersCRUDApp.Server.Common.UserFriendlyExceptions;
 using UsersCRUDApp.Server.DTOs;
 using UsersCRUDApp.Server.Models;
+using UsersCRUDApp.Server.Repositories.interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UsersCRUDApp.Server.Repositories

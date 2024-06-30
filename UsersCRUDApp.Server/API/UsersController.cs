@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersCRUDApp.Server.Common.UserFriendlyExceptions;
 using UsersCRUDApp.Server.DTOs;
-using UsersCRUDApp.Server.Repositories;
+using UsersCRUDApp.Server.Repositories.interfaces;
 
 namespace UsersCRUDApp.Server.API
 {
