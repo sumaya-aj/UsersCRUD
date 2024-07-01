@@ -10,7 +10,8 @@ const PROXY_CONFIG = [
       "/api/Users/Get",
       "/api/Users/Delete",
       "/api/Users/Update",
-      "/api/Users/Add"
+      "/api/Users/Add",
+      "/api/Cities/GetAll"
     ],
     target,
     secure: false

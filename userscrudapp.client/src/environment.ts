@@ -1,5 +1,8 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:5030/api/Users'  // Base API URL
+    apiUrl: {
+      usersApiUrl: 'http://localhost:5030/api/Users',  // Users Base API URL
+      citiesApiUrl: 'http://localhost:5030/api/Cities'  // Cities Base API URL
+    }
   };
   

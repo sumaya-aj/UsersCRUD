@@ -10,7 +10,7 @@ import { User } from '../types/user.interface';
 export class UsersService {
 
   users: User[] = [];
-  private baseAPIUrl = environment.apiUrl;
+  private baseAPIUrl = environment.apiUrl.usersApiUrl;
 
   constructor(private http: HttpClient) { }
 

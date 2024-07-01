@@ -11,11 +11,11 @@ import { City } from "../types/city.interface";
 
 
 export class CitiesService {
-    private baseAPIUrl = environment.apiUrl;
+    private baseAPIUrl = environment.apiUrl.citiesApiUrl;
 
     constructor(private http: HttpClient) {}
 
-    getAllCities(): Observable<City> {
-        return this.http.get<City>(`${this.baseAPIUrl}/GetAll`);
+    getAllCities(): Observable<City[]> {
+        return this.http.get<City[]>(`${this.baseAPIUrl}/GetAll`);
     }
 }
