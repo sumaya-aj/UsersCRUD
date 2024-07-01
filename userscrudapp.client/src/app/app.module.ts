@@ -8,6 +8,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ListUsersComponent } from './components/list-users/list-users.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ListUsersComponent } from './components/list-users/list-users.component
   imports: [
     BrowserModule, 
     HttpClientModule,
+    CommonModule,
     AppRoutingModule,
     ModalModule.forRoot(),
     FormsModule

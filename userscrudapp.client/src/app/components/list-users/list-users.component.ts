@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/user.interface';
@@ -17,6 +17,11 @@ export class ListUsersComponent implements OnInit {
   modalRef?: BsModalRef;
   userIdToDelete: number = 0;
   userFullNameToDelete?: string;
+
+  isEditMode = false;
+  selectedUser: User | null = null;
+
+  @ViewChild('editModal') editModal: TemplateRef<any> | undefined;
 
   constructor(private userService: UsersService,
     private modalService: BsModalService,
@@ -46,13 +51,17 @@ export class ListUsersComponent implements OnInit {
     this.userFullNameToDelete = userFullName;
   }
   
-  openEditUserModal(userId: number) {
-    this.modalRef = this.modalService.show(AddEditUserComponent, {
-      initialState: {
-        userIdToDelete: userId,
-        isEditMode: true
-      }
-    });
+  openEditUserModal(editModalTemplateRef: TemplateRef<void>, user: User) { // userId: number
+    this.isEditMode = true;
+    this.selectedUser = user;
+
+    this.modalRef = this.modalService.show(editModalTemplateRef);
+      // initialState: {
+      //   userIdToDelete: userId,
+      //   isEditMode: true
+      // }
+   
+    // this.showPopup = true;
   }
 
   deleteUser(userId: number) {

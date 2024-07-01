@@ -1,3 +1,6 @@
+
+{{isEditMode}}
+
 <div class="container" *ngIf="!isEditMode">
     <div class="card text-start">
       <div class="card-header">
@@ -9,26 +12,31 @@
 
 <div *ngIf="isEditMode">
   <div class="modal-header">
-    <h5 class="modal-title pull-left">Edit User</h5>
+      <h5 class="modal-title pull-left">Edit User</h5>
   </div>
-    <div *ngIf="showLoader">
+  <div *ngIf="showLoader">
       <img src="assets\images\spinner.svg" class="w-10">
-    </div>
-    <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
+  </div>
+  <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
 </div>
 
 <!-- ---------------------------------------------------------------------------- -->
 <ng-template #addEditForm>
+  {{userToEdit?.id}}
+  {{userToEdit?.fullName}}
+  {{userToEdit?.email}}
+  {{userToEdit?.birthDate}}
+  {{selectedCityId}}
+  {{userToEdit?.cityName}}
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
     <div [ngClass]="{'modal-body': isEditMode, 'card-body': !isEditMode}">
-        <input *ngIf="isEditMode" type="hidden" name="id" [(ngModel)]="user.id">
+        <input *ngIf="isEditMode" type="hidden" name="id">
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input
             type="text"
             id="fullName"
             name="fullName"
-            [(ngModel)]="user.fullName"
             required
             class="form-control mt-1"
           />
@@ -39,7 +47,6 @@
             type="email"
             id="email"
             name="email"
-            [(ngModel)]="user.email"
             required
             class="form-control mt-1"
           />
@@ -50,7 +57,6 @@
             type="date"
             id="birthDate"
             name="birthDate"
-            [(ngModel)]="user.birthDate"
             required
             class="form-control"
           />

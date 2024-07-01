@@ -20,7 +20,15 @@ export class AddEditUserComponent implements OnInit  {
   
   @Input() userIdToDelete: number | undefined;
   @Input() isEditMode: boolean | undefined;
+  @Input() userToEdit: User | null =  {
+    id: 0,
+    fullName: '',
+    email: '',
+    birthDate: '',
+    cityId: 0
+  };
 
+ 
   user: User = {
     id: 0,
     fullName: '',
@@ -70,7 +78,6 @@ export class AddEditUserComponent implements OnInit  {
   onSubmit(form: NgForm) {
     debugger;
 
-
     // prepare data to send to api
     var newOrUpdatedUser: User = {
       id: form.controls['id']?.value?? 0,
@@ -110,7 +117,6 @@ export class AddEditUserComponent implements OnInit  {
     else
       this.router.navigateByUrl("/");
   }
-
 
 
   loadUsers(): void {

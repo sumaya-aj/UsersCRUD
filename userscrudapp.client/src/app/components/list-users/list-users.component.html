@@ -39,7 +39,7 @@
                         <td>{{ user.birthDate | date:'dd-MM-yyyy' }}</td> <!-- | date:'mediumDate' // built-in pipe. Format: July 4, 2020 -->
                         <td>{{ user.cityName }}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary btn-sm" (click)="openEditUserModal(user.id)"><i class="fa-solid fa-pen"></i></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" (click)="openEditUserModal(editModal,user)"><i class="fa-solid fa-pen"></i></button>
                             <button type="button" class="btn btn-outline-danger btn-sm ms-1" (click)="openConfirmDeleteModal(confirmDeleteTemplateRef, user.id, user.fullName)"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
@@ -61,3 +61,13 @@
         </div>
     </ng-template>
 </div>
+
+
+<!-- <div *ngIf="isEditMode" class="modal">
+    <div class="modal-content">
+      <app-add-edit-user [userToEdit]="selectedUser" [isEditMode]="isEditMode"></app-add-edit-user> (userSaved)="onUserSaved()"
+    </div>
+</div> --> 
+<ng-template #editModal>
+    <app-add-edit-user [userToEdit]="selectedUser" [isEditMode]="isEditMode"></app-add-edit-user>
+</ng-template>
