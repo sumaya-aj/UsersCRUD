@@ -26,13 +26,15 @@ export class AddEditUserComponent implements OnInit  {
     fullName: '',
     email: '',
     birthDate: '',
-    city: {} as City
+    cityId: 0
   };
 
   users: User[] = [];
   cities: City[] = [];
 
   showLoader: boolean = true;
+
+  selectedCityId: number = 0;
 
   constructor(private modalRef: BsModalRef,
     private router: Router,
@@ -56,6 +58,7 @@ export class AddEditUserComponent implements OnInit  {
         next: (user: User) => {
           this.user = user; // map user data with user model that the template is bound with
           this.user.birthDate = this.datePipe.transform(this.user.birthDate, 'yyyy-MM-dd') || ''; // send date formatted
+          this.selectedCityId = user.cityId?? 0; // get the city of the user when the modal opens
           this.showLoader = false;
         },
         error: (err) => console.error(err)
@@ -73,8 +76,8 @@ export class AddEditUserComponent implements OnInit  {
       id: form.controls['id']?.value?? 0,
       fullName: form.controls['fullName'].value,
       email: form.controls['email'].value,
-      birthDate: form.controls['birthDate'].value
-      //city: form.controls['city'].value 
+      birthDate: form.controls['birthDate'].value,
+      cityId: form.controls['city'].value == 0 ? null : form.controls['city'].value
     }
 
     if (this.isEditMode) {
@@ -102,7 +105,6 @@ export class AddEditUserComponent implements OnInit  {
   }
 
   cancel(): void {
-    console.log('in cancel: ' + this.isEditMode)
     if(this.isEditMode)
       this.modalRef.hide();
     else

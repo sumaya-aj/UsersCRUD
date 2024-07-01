@@ -5,5 +5,6 @@ export interface User {
     fullName:  string;
     email:     string;
     birthDate: string;
-    city?:      City;
+    cityId:    number | null;
+    cityName?:  string;
 }

@@ -57,9 +57,9 @@
         </div>
         <div class="form-group mt-3">
           <label for="city">City</label>
-          <select class="form-select mt-1" id="city">
-            <option value="0">Select</option>
-            <option *ngFor="let city of cities">{{city.name}}</option>
+          <select class="form-select mt-1" [(ngModel)]="selectedCityId" id="city" name="city">
+            <option [ngValue]="0">Select</option>
+            <option *ngFor="let city of cities" [ngValue]="city.id">{{city.name}}</option>
           </select>
         </div>
     </div>

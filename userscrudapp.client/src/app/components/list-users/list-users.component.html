@@ -10,7 +10,7 @@
                 <div class="col-10">
                     <form class="row gx-3 gy-2 align-items-center" (ngSubmit)="searchUsers(searchString.value)">
                         <div class="col-sm-3">
-                          <input type="text" class="form-control form-control-sm" placeholder="Search by full name or email" #searchString>
+                          <input type="text" class="form-control form-control-sm" placeholder="Search by full name, email or city" #searchString>
                         </div>
                         <div class="col-auto">
                           <button type="submit" class="btn btn-outline-secondary btn-sm">Search</button>
@@ -37,7 +37,7 @@
                         <td>{{ user.fullName }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.birthDate | date:'dd-MM-yyyy' }}</td> <!-- | date:'mediumDate' // built-in pipe. Format: July 4, 2020 -->
-                        <td>{{ user.city?.name }}</td>
+                        <td>{{ user.cityName }}</td>
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm" (click)="openEditUserModal(user.id)"><i class="fa-solid fa-pen"></i></button>
                             <button type="button" class="btn btn-outline-danger btn-sm ms-1" (click)="openConfirmDeleteModal(confirmDeleteTemplateRef, user.id, user.fullName)"><i class="fa-solid fa-trash"></i></button>

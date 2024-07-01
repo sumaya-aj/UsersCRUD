@@ -42,12 +42,12 @@ namespace UsersCRUDApp.Server.Repositories
         public async Task<IEnumerable<UserDTO>> GetAllUsersAsync(string? searchString)
         {
 
-            IQueryable<User> users = from u in _dbContext.Users select u;
+            IQueryable<User> users = _dbContext.Users.Include(u => u.City);
             if (!String.IsNullOrEmpty(searchString))
             {
                 users = users.Where(u => u.FullName.Contains(searchString)
-                                       || u.Email.Contains(searchString));
-                                        //u.City.Contains(searchString))
+                                       || u.Email.Contains(searchString)
+                                       || (u.City != null && u.City.Name.Contains(searchString)));
             }
 
             return await users
@@ -57,14 +57,17 @@ namespace UsersCRUDApp.Server.Repositories
                     FullName = user.FullName,
                     Email = user.Email,
                     BirthDate = user.BirthDate,
-                    CityId = user.CityId
+                    CityId = user.CityId,
+                    CityName = user.City != null ? user.City.Name : string.Empty
                 })
                 .ToListAsync();
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users
+                                      .Include(u => u.City)
+                                      .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -77,7 +80,8 @@ namespace UsersCRUDApp.Server.Repositories
                 FullName = user.FullName,
                 Email = user.Email,
                 BirthDate = user.BirthDate,
-                CityId = user.CityId
+                CityId = user.CityId,
+                CityName = user.City != null ? user.City.Name : string.Empty
             };
         }
 
