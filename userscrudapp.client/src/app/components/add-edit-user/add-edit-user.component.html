@@ -1,6 +1,4 @@
 
-{{isEditMode}}
-
 <div class="container" *ngIf="!isEditMode">
     <div class="card text-start">
       <div class="card-header">
@@ -14,32 +12,29 @@
   <div class="modal-header">
       <h5 class="modal-title pull-left">Edit User</h5>
   </div>
-  <div *ngIf="showLoader">
+  <!-- <div *ngIf="showLoader">
       <img src="assets\images\spinner.svg" class="w-10">
-  </div>
+  </div> -->
   <ng-container *ngTemplateOutlet="addEditForm"></ng-container>
 </div>
 
 <!-- ---------------------------------------------------------------------------- -->
 <ng-template #addEditForm>
-  {{userToEdit?.id}}
-  {{userToEdit?.fullName}}
-  {{userToEdit?.email}}
-  {{userToEdit?.birthDate}}
-  {{selectedCityId}}
-  {{userToEdit?.cityName}}
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
     <div [ngClass]="{'modal-body': isEditMode, 'card-body': !isEditMode}">
-        <input *ngIf="isEditMode" type="hidden" name="id">
+        <input *ngIf="isEditMode" type="hidden" name="id"  [(ngModel)]="userToEdit.id">
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input
             type="text"
             id="fullName"
             name="fullName"
+            [(ngModel)]="userToEdit.fullName"
+            #fullName="ngModel"
             required
             class="form-control mt-1"
           />
+          <div *ngIf="fullName.invalid  && (fullName.dirty || fullName.touched)" class="invalid-feedback">Please provide full name</div>
         </div>
         <div class="form-group mt-3">
           <label for="email">Email</label>
@@ -47,9 +42,12 @@
             type="email"
             id="email"
             name="email"
+            [(ngModel)]="userToEdit.email"
+            #email="ngModel"
             required
             class="form-control mt-1"
           />
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">Please provide email</div>
         </div>
         <div class="form-group mt-3">
           <label for="birthDate">Birth Date</label>
@@ -57,13 +55,16 @@
             type="date"
             id="birthDate"
             name="birthDate"
+            [(ngModel)]="userToEdit.birthDate"
+            #birthDate="ngModel"
             required
             class="form-control"
           />
+          <div *ngIf="birthDate.invalid && (birthDate.dirty || birthDate.touched)" class="invalid-feedback">Please provide birth date</div>
         </div>
         <div class="form-group mt-3">
           <label for="city">City</label>
-          <select class="form-select mt-1" [(ngModel)]="selectedCityId" id="city" name="city">
+          <select class="form-select mt-1" [(ngModel)]="userToEdit.cityId" id="city" name="city">
             <option [ngValue]="0">Select</option>
             <option *ngFor="let city of cities" [ngValue]="city.id">{{city.name}}</option>
           </select>

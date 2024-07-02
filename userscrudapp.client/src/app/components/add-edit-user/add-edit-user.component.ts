@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { createInjectableType } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/types/user.interface';
 import { City } from 'src/app/types/city.interface';
@@ -20,22 +20,23 @@ export class AddEditUserComponent implements OnInit  {
   
   @Input() userIdToDelete: number | undefined;
   @Input() isEditMode: boolean | undefined;
-  @Input() userToEdit: User | null =  {
+  @Input("userToEdit") userToEdit: User  =  {
     id: 0,
     fullName: '',
     email: '',
     birthDate: '',
-    cityId: 0
+    cityId: 0,
+    cityName: ''
   };
 
  
-  user: User = {
-    id: 0,
-    fullName: '',
-    email: '',
-    birthDate: '',
-    cityId: 0
-  };
+  // user: User = {
+  //   id: 0,
+  //   fullName: '',
+  //   email: '',
+  //   birthDate: '',
+  //   cityId: 0
+  // };
 
   users: User[] = [];
   cities: City[] = [];
@@ -44,11 +45,17 @@ export class AddEditUserComponent implements OnInit  {
 
   selectedCityId: number = 0;
 
+  @Output() cancelModal = new EventEmitter<void>();
+  @Output() showModal = new EventEmitter<boolean>();
+
+  @Output() formSubmitted = new EventEmitter<void>();
+
   constructor(private modalRef: BsModalRef,
     private router: Router,
     private userService: UsersService,
     private datePipe: DatePipe,
-    private cityService: CitiesService) {
+    private cityService: CitiesService,
+    private modalService: BsModalService) {
         // needed for value of this.isEditMode for addUser
         const navigation = this.router.getCurrentNavigation();
         const state = navigation?.extras.state?.['isEditMode'];
@@ -59,22 +66,30 @@ export class AddEditUserComponent implements OnInit  {
   }
  
   ngOnInit(): void {
-    if(this.userIdToDelete) { // edit mode
-      // get user data by id
-      this.userService.getUserById(this.userIdToDelete)
-      .subscribe({
-        next: (user: User) => {
-          this.user = user; // map user data with user model that the template is bound with
-          this.user.birthDate = this.datePipe.transform(this.user.birthDate, 'yyyy-MM-dd') || ''; // send date formatted
-          this.selectedCityId = user.cityId?? 0; // get the city of the user when the modal opens
-          this.showLoader = false;
-        },
-        error: (err) => console.error(err)
-      });
-    }
+    // if(this.userIdToDelete) { // edit mode
+    //   // get user data by id
+    //   this.userService.getUserById(this.userIdToDelete)
+    //   .subscribe({
+    //     next: (user: User) => {
+    //       this.user = user; // map user data with user model that the template is bound with
+    //       this.user.birthDate = this.datePipe.transform(this.user.birthDate, 'yyyy-MM-dd') || ''; // send date formatted
+    //       this.selectedCityId = user.cityId?? 0; // get the city of the user when the modal opens
+    //       this.showLoader = false;
+    //     },
+    //     error: (err) => console.error(err)
+    //   });
+    // }
+
+    if (this.userToEdit.birthDate)
+      this.userToEdit.birthDate = this.datePipe.transform(this.userToEdit.birthDate, 'yyyy-MM-dd') || '';
   }
 
- 
+  closeModal(isModalOpen: boolean) {
+    this.showModal.emit(isModalOpen);
+  }
+
+
+
   onSubmit(form: NgForm) {
     debugger;
 
@@ -92,10 +107,12 @@ export class AddEditUserComponent implements OnInit  {
       this.userService.updateUser(newOrUpdatedUser)
       .subscribe({
         next: () => {
-          this.showLoader = true;
-          this.modalRef?.hide();
-          window.location.reload(); // refresh list after edit
-          this.showLoader = false;
+          
+          //window.location.reload(); // refresh list after edit - refresh whole window
+          this.formSubmitted.emit(); // refresh list after edit - refresh component only
+
+          // this.modalRef?.hide(); // no longer working after making add-edit-user a child component
+          this.modalService.hide();
         },
         error: (err) => console.error(err)
       });
@@ -113,9 +130,16 @@ export class AddEditUserComponent implements OnInit  {
 
   cancel(): void {
     if(this.isEditMode)
-      this.modalRef.hide();
+      //this.modalRef.hide();
+      // this.modalRef?.hide();
+      //this.cancelModal.emit();
+      this.modalService.hide();
     else
       this.router.navigateByUrl("/");
+  }
+
+  onCancel() {
+    this.cancelModal.emit();
   }
 
 

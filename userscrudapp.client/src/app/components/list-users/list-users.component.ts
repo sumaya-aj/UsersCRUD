@@ -19,9 +19,19 @@ export class ListUsersComponent implements OnInit {
   userFullNameToDelete?: string;
 
   isEditMode = false;
-  selectedUser: User | null = null;
+  selectedUser: User = {
+    id: 0,
+    fullName: '',
+    email: '',
+    birthDate: '',
+    cityId: 0,
+    cityName: ''
+  };
 
   @ViewChild('editModal') editModal: TemplateRef<any> | undefined;
+
+  isModalOpen: boolean = false;
+
 
   constructor(private userService: UsersService,
     private modalService: BsModalService,
@@ -51,7 +61,7 @@ export class ListUsersComponent implements OnInit {
     this.userFullNameToDelete = userFullName;
   }
   
-  openEditUserModal(editModalTemplateRef: TemplateRef<void>, user: User) { // userId: number
+  openEditUserModal(editModalTemplateRef: TemplateRef<void>,user: User) { // userId: number
     this.isEditMode = true;
     this.selectedUser = user;
 
@@ -93,4 +103,24 @@ export class ListUsersComponent implements OnInit {
         }
       });
   }
+
+
+  onCancel() {
+    this.isEditMode = false;
+    this.selectedUser = {
+      id: 0,
+      fullName: '',
+      email: '',
+      birthDate: '',
+      cityId: 0,
+      cityName: ''
+    };
+  }
+
+  handleModalClose(isModalOpen: boolean) {
+    this.isModalOpen = isModalOpen;
+    this.isEditMode = false;
+  }
+
+
 }
